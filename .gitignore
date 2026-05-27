@@ -4,3 +4,4 @@ dist
 .vscode
 .idea
 frontend/node_modules
+backend/__pycache__/

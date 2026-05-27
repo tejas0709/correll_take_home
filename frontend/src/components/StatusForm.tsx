@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import type { Status } from '../api/client'
 
 const severities = ['low', 'medium', 'high', 'warning', 'critical', 'info'] as const
+export type Severity = typeof severities[number]
 
 export default function StatusForm({
   onSubmit,
@@ -10,11 +11,11 @@ export default function StatusForm({
 }) {
   const [title, setTitle] = useState('')
   const [message, setMessage] = useState('')
-  const [severity, setSeverity] = useState<typeof severities[number]>('low')
+  const [severity, setSeverity] = useState<Severity>('low')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!title.trim() || !message.trim()) {
       setError('Title and message are required')
@@ -28,7 +29,7 @@ export default function StatusForm({
       setMessage('')
       setSeverity('low')
     } catch (err) {
-      setError('Submit failed')
+      setError(err instanceof Error ? err.message : 'Submit failed')
     } finally {
       setSubmitting(false)
     }
@@ -37,16 +38,28 @@ export default function StatusForm({
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div className="row">
-        <label>Title</label>
-        <input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <label htmlFor="status-title">Title</label>
+        <input
+          id="status-title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </div>
       <div className="row">
-        <label>Message</label>
-        <textarea value={message} onChange={(e) => setMessage(e.target.value)} />
+        <label htmlFor="status-message">Message</label>
+        <textarea
+          id="status-message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        />
       </div>
       <div className="row">
-        <label>Severity</label>
-        <select value={severity} onChange={(e) => setSeverity(e.target.value as any)}>
+        <label htmlFor="status-severity">Severity</label>
+        <select
+          id="status-severity"
+          value={severity}
+          onChange={(e) => setSeverity(e.target.value as Severity)}
+        >
           {severities.map((s) => (
             <option value={s} key={s}>
               {s}
