@@ -82,5 +82,4 @@ Navigate to `http://localhost:3000` and start submitting statuses!
 - [ ] Delete a status (add `DELETE /api/statuses/:id`)
 - [ ] Filter by severity
 - [ ] Persist to PostgreSQL database
-- [ ] Add authentication
 
