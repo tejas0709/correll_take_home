@@ -6,7 +6,7 @@ export type Status = {
   createdAt: number
 }
 
-const API_BASE = '/api'
+const API_BASE = 'http://localhost:5000/api'
 
 export async function getStatuses(): Promise<Status[]> {
   try {
@@ -15,7 +15,7 @@ export async function getStatuses(): Promise<Status[]> {
     const data = (await res.json()) as Status[]
     return data
   } catch (err) {
-    // Backend not available yet — return empty list
+    // Backend not available — return empty list
     return []
   }
 }
